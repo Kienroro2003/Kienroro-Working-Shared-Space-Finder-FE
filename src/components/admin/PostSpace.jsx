@@ -11,14 +11,19 @@ import {
   faStar,
   faUserGroup,
 } from "@fortawesome/free-solid-svg-icons";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import * as spaceService from "../../services/spaces";
+import { createPortal } from "react-dom";
+import useClickOutSide from "../../hooks/useClickOutSide";
 
 const PostSpace = () => {
   const [isHoverHeart, setIsHoverHeart] = useState(false);
   const { statusId } = useParams();
   const [spaces, setSpaces] = useState([]);
+  const { show, nodeRef, setShow } = useClickOutSide(".iconUpdate");
+  const [coord, setCoord] = useState({});
+  const [space, setSpace] = useState();
   useEffect(() => {
     const fetchingSpaces = async () => {
       const param = {
@@ -31,8 +36,16 @@ const PostSpace = () => {
     };
     fetchingSpaces();
   }, [statusId]);
+  const handleClickUpdateStatus = (e, item) => {
+    e.preventDefault();
+    console.log(e.target.getBoundingClientRect());
+    setCoord(e.target.getBoundingClientRect());
+    setShow(true);
+    setSpace(item);
+  };
+
   return (
-    <>
+    <div className="relative">
       {spaces.length > 0 &&
         spaces.map((item, index) => {
           return (
@@ -168,7 +181,7 @@ const PostSpace = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="flex items-center justify-between rounded-b-xl bg-[#fafafa] px-3 py-2 py-3 text-textBoldColor">
+                    <div className="flex items-center justify-between rounded-b-xl bg-[#fafafa] px-3 py-2  text-textBoldColor">
                       <div>
                         <FontAwesomeIcon icon={faMapLocationDot} />
                         <span className="mx-3">
@@ -179,7 +192,13 @@ const PostSpace = () => {
                           ].join(", ")}
                         </span>
                       </div>
-                      <FontAwesomeIcon icon={faEllipsisVertical} />
+                      <button
+                        onClick={(e) => handleClickUpdateStatus(e, item)}
+                        ref={nodeRef}
+                        className="iconUpdate px-4 py-1 hover:bg-blue-700 hover:text-white"
+                      >
+                        <FontAwesomeIcon icon={faEllipsisVertical} />
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -187,8 +206,31 @@ const PostSpace = () => {
             </Link>
           );
         })}
-    </>
+      {statusId == 3 && show && (
+        <DropdownUpdate space={space} coord={coord}></DropdownUpdate>
+      )}
+    </div>
   );
 };
+
+const allowedSpace = {
+  id: 1,
+  status: "Đã Thuê",
+};
+
+function DropdownUpdate({ space, coord }) {
+  console.log(space);
+  space = { ...space, status: allowedSpace };
+  console.log(JSON.stringify(space));
+  return createPortal(
+    <div
+      className="absolute z-50 -translate-x-full border bg-white px-5 py-2"
+      style={{ top: coord.bottom, left: coord.left + coord.width }}
+    >
+      <button>Allow</button>
+    </div>,
+    document.body,
+  );
+}
 
 export default PostSpace;

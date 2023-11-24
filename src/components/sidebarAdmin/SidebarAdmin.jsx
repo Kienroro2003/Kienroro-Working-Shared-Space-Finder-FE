@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import useHover from "../../hooks/useHover";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleDown } from "@fortawesome/free-solid-svg-icons";
 
 const SidebarAdmin = ({ openSidebarToggle, OpenSidebar }) => {
   const [collapseShow, setCollapseShow] = React.useState("hidden");
-  const { nodeRef, movered } = useHover();
+  const [show, setShow] = useState(false);
   return (
     <>
       <nav className="relative z-10 flex flex-wrap items-center justify-between bg-white px-6 py-4 shadow-xl md:fixed md:bottom-0 md:left-0 md:top-0 md:block md:w-64 md:flex-row md:flex-nowrap md:overflow-hidden md:overflow-y-auto">
@@ -136,12 +138,12 @@ const SidebarAdmin = ({ openSidebarToggle, OpenSidebar }) => {
               </li>
 
               <li
-                ref={nodeRef}
-                className="relative items-center hover:bg-blue-600 hover:text-white"
+                className="relative items-center rounded-md hover:bg-blue-600 hover:text-white"
+                onClick={() => setShow(!show)}
               >
                 <div
                   className={
-                    "block py-3 text-xs font-bold uppercase" +
+                    "flex items-center justify-between py-3 text-xs font-bold uppercase" +
                     (window.location.href.indexOf("/admin/postspace") !== -1
                       ? "text-lightBlue-500 hover:text-lightBlue-600"
                       : "text-blueGray-700 hover:text-blueGray-500")
@@ -150,16 +152,20 @@ const SidebarAdmin = ({ openSidebarToggle, OpenSidebar }) => {
                   <i
                     className={
                       "fas fa-map-marked mr-2 text-sm " +
-                      (window.location.href.indexOf("/admin/postspace") !== -1
+                      (window.location.href.indexOf("/admin/posts-space") !== -1
                         ? "opacity-75"
                         : "text-blueGray-300")
                     }
                   ></i>{" "}
                   Post Space
+                  <FontAwesomeIcon
+                    icon={faAngleDown}
+                    className="ml-auto mr-2"
+                  />
                 </div>
                 <div
                   className={`absolute bottom-0 left-0 w-full translate-y-full bg-blue-300 transition-all ${
-                    movered ? "visible opacity-100 " : "invisible opacity-0"
+                    show ? "visible opacity-100 " : "invisible opacity-0"
                   }`}
                 >
                   <Link
