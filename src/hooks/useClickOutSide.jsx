@@ -5,11 +5,11 @@ export default function useClickOutSide(dom = "button") {
   const [show, setShow] = useState(false);
   useEffect(() => {
     function handleClickOutSideDropdown(e) {
-      console.log(
-        e.target,
-        nodeRef.current.contains(e.target),
-        e.target.matches(dom),
-      );
+      // console.log(
+      //   e.target,
+      //   nodeRef.current.contains(e.target),
+      //   e.target.matches(dom),
+      // );
       if (
         nodeRef.current &&
         !nodeRef.current.contains(e.target) &&
