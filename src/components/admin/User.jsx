@@ -1,4 +1,4 @@
-import { React, useState, useEffect, useContext } from "react";
+import { React, useState, useEffect, useContext, Fragment } from "react";
 import axios from "axios";
 import * as adminsService from "../../services/admin";
 import AuthContext from "../../context/authProvider";
@@ -97,57 +97,136 @@ const User = () => {
     setUsers(() => newUsers);
   };
   return (
-    <div className="">
+    <Fragment>
+      <h2 className="my-5 text-2xl font-bold">Management User Account</h2>
+      <table class=" w-full table-auto border-separate border-spacing-y-5 rounded-tl-xl rounded-tr-xl">
+        <thead className=" w-full  bg-[#ECEFF1]">
+          <tr>
+            <th className="rounded-l-xl py-3 pl-3 text-left text-base font-medium text-[#1B2432]">
+              User Name
+            </th>
+            <th className="text-left text-base font-medium text-[#1B2432]">
+              Visit Id
+            </th>
+            <th className="text-left text-base font-medium text-[#1B2432]">
+              Email
+            </th>
+            <th className="text-left text-base font-medium text-[#1B2432]">
+              Phone
+            </th>
+            <th className="text-left text-base font-medium text-[#1B2432]">
+              Address
+            </th>
+            <th className="text-left text-base font-medium text-[#1B2432]">
+              Role
+            </th>
+            <th className="rounded-r-xl text-left text-base font-medium text-[#1B2432]">
+              Action
+            </th>
+          </tr>
+        </thead>
+        <tbody className="w-full">
+          {users.map((user, index) => {
+            return (
+              <tr key={index} className=" bg-[#FFF]">
+                <td className="py-3 pl-3 rounded-l-xl">
+                  <div className="flex items-center gap-2">
+                    <img
+                      src="https://mighty.tools/mockmind-api/content/human/7.jpg"
+                      alt="avatar"
+                      className="object-cover rounded-full h-9 w-9"
+                    />
+                    <span>{user.name}</span>
+                  </div>
+                </td>
+                <td className="py-3 pl-3">
+                  <span>{user.id}</span>
+                </td>
+                <td className="py-3 pl-3">
+                  <span> {user.email}</span>
+                </td>
+                <td className="py-3 pl-3">
+                  <span>{user.phone}</span>
+                </td>
+                <td className="py-3 pl-3">
+                  <span>{user.address}</span>
+                </td>
+                <td className="py-3 pl-3">
+                  <span>{user.role}</span>
+                </td>
+                <td className="py-3 pl-3 ml-auto rounded-r-xl">
+                  <div className="flex gap-2">
+                    <button className="rounded-xl bg-[#23A9F9] px-6 py-2 text-white">
+                      Update
+                    </button>
+                    <button className="rounded-xl bg-[#FFA900] px-6 py-2 text-white">
+                      Remove
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </Fragment>
+  );
+};
+
+export default User;
+
+/**
+ * <div className="">
       <div>
-        <h2 className="my-5 text-3xl font-bold">Management User Account</h2>
+        <h2 className="my-5 text-2xl font-bold">Management User Account</h2>
       </div>
 
-      <table className="w-full table-auto bg-white">
+      <table className="w-full bg-white table-auto">
         <thead>
           <tr className="flex w-full bg-gray-100">
-            <th className="flex-1 border p-2 text-black ">ID</th>
-            <th className="flex-1 border p-2 text-black ">Name</th>
-            <th className="flex-1 border p-2 text-black ">Email</th>
-            <th className="flex-1 border p-2 text-black ">Phone</th>
-            <th className="flex-1 border p-2 text-black ">Address</th>
-            <th className="flex-1 border p-2 text-black ">Role</th>
-            <th className="flex-1 border p-2 text-black ">Tùy Chọn</th>
+            <th className="flex-1 p-2 text-black border ">ID</th>
+            <th className="flex-1 p-2 text-black border ">Name</th>
+            <th className="flex-1 p-2 text-black border ">Email</th>
+            <th className="flex-1 p-2 text-black border ">Phone</th>
+            <th className="flex-1 p-2 text-black border ">Address</th>
+            <th className="flex-1 p-2 text-black border ">Role</th>
+            <th className="flex-1 p-2 text-black border ">Tùy Chọn</th>
           </tr>
         </thead>
         <tbody>
           {users.map((user, index) => (
             <tr
               key={index}
-              className="flex h-16 items-center"
+              className="flex items-center h-16"
               data-index={index}
             >
-              <td className="flex h-full flex-1 items-center justify-center border px-2">
+              <td className="flex items-center justify-center flex-1 h-full px-2 border">
                 {user.id}
               </td>
-              <td className="flex h-full flex-1 items-center justify-center border px-2">
+              <td className="flex items-center justify-center flex-1 h-full px-2 border">
                 {user.name}
               </td>
-              <td className="flex h-full flex-1 items-center justify-center border px-2">
+              <td className="flex items-center justify-center flex-1 h-full px-2 border">
                 {user.email}
               </td>
-              <td className="flex h-full flex-1 items-center justify-center border px-2">
+              <td className="flex items-center justify-center flex-1 h-full px-2 border">
                 {user.phone}
               </td>
-              <td className="flex h-full flex-1 items-center justify-center border px-2">
+              <td className="flex items-center justify-center flex-1 h-full px-2 border">
                 {user.address}
               </td>
-              <td className="flex h-full flex-1 items-center justify-center border px-2">
+              <td className="flex items-center justify-center flex-1 h-full px-2 border">
                 {user.role}
               </td>
-              <td className="flex h-full flex-1 items-center justify-center gap-4 border px-2">
+              <td className="flex items-center justify-center flex-1 h-full gap-4 px-2 border">
                 <button
-                  className="rounded-md bg-green-600 px-2 py-1 text-white hover:underline"
+                  className="px-2 py-1 text-white bg-green-600 rounded-md hover:underline"
                   onClick={() => handleEdit(user.id)}
                 >
                   Sửa
                 </button>
                 <button
-                  className="rounded-md bg-red-600 px-2 py-1 text-white hover:underline"
+                  className="px-2 py-1 text-white bg-red-600 rounded-md hover:underline"
                   onClick={() => deleteId(user.id)}
                 >
                   Xóa
@@ -172,7 +251,4 @@ const User = () => {
         )}
       </div>
     </div>
-  );
-};
-
-export default User;
+ */

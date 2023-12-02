@@ -12,6 +12,7 @@ const Owner = () => {
 
       if (responseOwner?.status === 200) {
         const listSpace = responseOwner?.data?.listSpaces;
+        console.log('🚀 ~ fetchOwner ~ listSpace:', listSpace)
         setOwners(listSpace);
       } else {
         console.log(responseOwner);
@@ -39,44 +40,44 @@ const Owner = () => {
       <div>
         <h2 className="my-5 text-3xl font-bold">Management Owner Account</h2>
       </div>
-      <table className="w-full table-auto bg-white">
+      <table className="w-full bg-white table-auto">
         <thead>
           <tr className="flex w-full bg-gray-100">
-            <th className="flex-1 border p-2 text-black ">ID</th>
-            <th className="flex-1 border p-2 text-black ">Name</th>
-            <th className="flex-1 border p-2 text-black ">Email</th>
-            <th className="flex-1 border p-2 text-black ">Phone</th>
-            <th className="flex-1 border p-2 text-black ">Address</th>
-            <th className="flex-1 border p-2 text-black ">Tùy Chọn</th>
+            <th className="flex-1 p-2 text-black border ">ID</th>
+            <th className="flex-1 p-2 text-black border ">Name</th>
+            <th className="flex-1 p-2 text-black border ">Email</th>
+            <th className="flex-1 p-2 text-black border ">Phone</th>
+            <th className="flex-1 p-2 text-black border ">Address</th>
+            <th className="flex-1 p-2 text-black border ">Tùy Chọn</th>
           </tr>
         </thead>
         <tbody>
           {owners.map((space, index) => (
-            <tr key={index} className="flex h-16 items-center">
-              <td className="flex h-full flex-1 items-center justify-center border px-2">
+            <tr key={index} className="flex items-center h-16">
+              <td className="flex items-center justify-center flex-1 h-full px-2 border">
                 {space?.ownerId?.id}
               </td>
-              <td className="flex h-full flex-1 items-center justify-center border px-2">
+              <td className="flex items-center justify-center flex-1 h-full px-2 border">
                 {space?.ownerId?.name}
               </td>
-              <td className="flex h-full flex-1 items-center justify-center border px-2">
+              <td className="flex items-center justify-center flex-1 h-full px-2 border">
                 {space?.ownerId?.email}
               </td>
-              <td className="flex h-full flex-1 items-center justify-center border px-2">
+              <td className="flex items-center justify-center flex-1 h-full px-2 border">
                 {space?.ownerId?.phone}
               </td>
-              <td className="flex h-full flex-1 items-center justify-center border px-2">
+              <td className="flex items-center justify-center flex-1 h-full px-2 border">
                 {space?.ownerId?.address}
               </td>
-              <td className="flex h-full flex-1 items-center justify-center gap-4 border px-2">
+              <td className="flex items-center justify-center flex-1 h-full gap-4 px-2 border">
                 <button
-                  className="rounded-md bg-green-600 px-2 py-1 text-white hover:underline"
+                  className="px-2 py-1 text-white bg-green-600 rounded-md hover:underline"
                   oncl
                 >
                   Sửa
                 </button>
                 <button
-                  className="rounded-md bg-red-600 px-2 py-1 text-white hover:underline"
+                  className="px-2 py-1 text-white bg-red-600 rounded-md hover:underline"
                   onClick={deleteid}
                 >
                   Xóa
