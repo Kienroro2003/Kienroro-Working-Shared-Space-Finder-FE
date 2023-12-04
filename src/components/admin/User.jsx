@@ -17,7 +17,9 @@ const User = () => {
   useEffect(() => {
     const fetchUser = async () => {
       const accessToken = auth.accessToken;
-      const param = {};
+      const param = {
+        searchByRole: "User",
+      };
 
       const responseUser = await adminsService.getUser(param, accessToken);
       console.log("🚀 ~ fetchUser ~ responseUser:", responseUser);
@@ -125,12 +127,12 @@ const User = () => {
           {users.map((user, index) => {
             return (
               <tr key={index} className=" bg-[#FFF]">
-                <td className="py-3 pl-3 rounded-l-xl">
+                <td className="rounded-l-xl py-3 pl-3">
                   <div className="flex items-center gap-2">
                     <img
                       src="https://mighty.tools/mockmind-api/content/human/7.jpg"
                       alt="avatar"
-                      className="object-cover rounded-full h-9 w-9"
+                      className="h-9 w-9 rounded-full object-cover"
                     />
                     <span>{user.name}</span>
                   </div>
@@ -150,7 +152,7 @@ const User = () => {
                 <td className="py-3 pl-3">
                   <span>{user.roles[0].roleValue}</span>
                 </td>
-                <td className="py-3 pl-3 ml-auto rounded-r-xl">
+                <td className="ml-auto rounded-r-xl py-3 pl-3">
                   <div className="flex gap-2">
                     <button
                       onClick={handleEdit}

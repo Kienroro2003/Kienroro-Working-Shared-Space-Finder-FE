@@ -1,24 +1,38 @@
-import { React, useState, useEffect, Fragment } from "react";
-import * as spaceService from "../../services/spaces";
+import { React, useState, useEffect, Fragment, useContext } from "react";
+import * as adminsService from "../../services/admin";
+import AuthContext from "../../context/authProvider";
 
 const Owner = () => {
   const [owners, setOwners] = useState([]);
+  const { auth, setAuth } = useContext(AuthContext);
 
   useEffect(() => {
-    const fetchOwner = async () => {
-      const param = {};
+    const fetchUser = async () => {
+      const accessToken = auth.accessToken;
+      const param = {
+        searchByRole: "Owner",
+      };
 
-      const responseOwner = await spaceService.getSpace(param);
+      const responseUser = await adminsService.getUser(param, accessToken);
+      console.log("🚀 ~ fetchUser ~ responseUser:", responseUser);
 
-      if (responseOwner?.status === 200) {
-        const listSpace = responseOwner?.data?.listSpaces;
-        console.log("🚀 ~ fetchOwner ~ listSpace:", listSpace);
-        setOwners(listSpace);
+      if (responseUser?.status === 200) {
+        setOwners(responseUser.data.listUsers);
       } else {
-        console.log(responseOwner);
+        console.log(responseUser);
       }
     };
-    fetchOwner();
+    fetchUser();
+  }, [auth]);
+
+  useEffect(() => {
+    const myDataString = localStorage.getItem("auth");
+    if (myDataString !== null) {
+      const myDataObject = JSON.parse(myDataString);
+      setAuth(myDataObject);
+    } else {
+      setAuth({});
+    }
   }, []);
 
   function deleteid(id) {
@@ -65,12 +79,12 @@ const Owner = () => {
           {owners.map((user, index) => {
             return (
               <tr key={index} className=" bg-[#FFF]">
-                <td className="py-3 pl-3 rounded-l-xl">
+                <td className="rounded-l-xl py-3 pl-3">
                   <div className="flex items-center gap-2">
                     <img
                       src="https://mighty.tools/mockmind-api/content/human/7.jpg"
                       alt="avatar"
-                      className="object-cover rounded-full h-9 w-9"
+                      className="h-9 w-9 rounded-full object-cover"
                     />
                     <span>{user.name}</span>
                   </div>
@@ -87,7 +101,7 @@ const Owner = () => {
                 <td className="py-3 pl-3">
                   <span>{user.address}</span>
                 </td>
-                <td className="py-3 pl-3 ml-auto rounded-r-xl">
+                <td className="ml-auto rounded-r-xl py-3 pl-3">
                   <div className="flex gap-2">
                     <button
                       // onClick={handleEdit}
