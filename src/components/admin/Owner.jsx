@@ -68,6 +68,8 @@ const Owner = () => {
   }, []);
 
   const handleSubmitEdit = async () => {
+    if (!owner) return;
+    if (owner.roles[0].roleCode === role) return;
     const accessToken = auth.accessToken;
     const param = {
       userId: owner.id,
@@ -216,7 +218,10 @@ const Owner = () => {
                       </h3>
                       <div class="mt-2 w-full">
                         <Dropdown
-                          data={dataDropdown}
+                          data={dataDropdown.filter(
+                            (userFilter) =>
+                              userFilter.value !== owner.roles[0].roleCode,
+                          )}
                           setRole={setRole}
                         ></Dropdown>
                       </div>

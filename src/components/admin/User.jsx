@@ -1,5 +1,5 @@
 import { React, useState, useEffect, useContext, Fragment } from "react";
-import axios from "axios";
+import axios, { HttpStatusCode } from "axios";
 import * as adminsService from "../../services/admin";
 import AuthContext from "../../context/authProvider";
 import Modal from "../admin/ModalUser";
@@ -65,6 +65,8 @@ const User = () => {
   };
 
   const handleSubmitEdit = async () => {
+    if (!user) return;
+    if (user.roles[0].roleCode === role) return;
     const accessToken = auth.accessToken;
     const param = {
       userId: user.id,
@@ -73,9 +75,12 @@ const User = () => {
 
     const responseUser = await adminsService.updateUser(param, accessToken);
     console.log(responseUser);
-    setUsers((users) =>
-      users.filter((userFilter) => userFilter.id !== user.id),
-    );
+    if (responseUser.status === HttpStatusCode.Ok) {
+      setUsers((users) =>
+        users.filter((userFilter) => userFilter.id !== user.id),
+      );
+    }
+
     setModalOpen(false);
   };
 
@@ -218,7 +223,10 @@ const User = () => {
                       </h3>
                       <div class="mt-2 w-full">
                         <Dropdown
-                          data={dataDropdown}
+                          data={dataDropdown.filter(
+                            (userFilter) =>
+                              userFilter.value !== user.roles[0].roleCode,
+                          )}
                           setRole={setRole}
                         ></Dropdown>
                       </div>
