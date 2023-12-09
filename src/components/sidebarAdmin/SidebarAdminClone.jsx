@@ -6,12 +6,23 @@ import {
   faUserTie,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+import * as spaceService from "../../services/spaces";
 
 const SidebarAdminClone = () => {
   const [collapseShow, setCollapseShow] = useState("hidden");
-  const [show, setShow] = useState(false);
+  const [spaces, setSpaces] = useState([]);
+  useEffect(() => {
+    const fetchingSpaces = async () => {
+      const param = {
+        status: 3,
+      };
+      const data = await spaceService.getSpace(param);
+      setSpaces(() => data?.data?.listSpaces || []);
+    };
+    fetchingSpaces();
+  }, []);
   return (
     <nav className="relative z-10 flex flex-wrap items-center justify-between bg-white px-6 py-4 shadow-xl md:fixed md:bottom-0 md:left-0 md:top-0 md:block md:w-64 md:flex-row md:flex-nowrap md:overflow-hidden md:overflow-y-auto">
       <div className="mx-auto flex w-full flex-col items-center gap-8 px-0 md:min-h-full md:flex-col md:flex-nowrap md:items-stretch">
@@ -38,7 +49,7 @@ const SidebarAdminClone = () => {
             <NavLink
               to="/admin/dashboard"
               className={({ isActive }) =>
-                `flex w-full items-center gap-2 rounded-xl  px-4 py-3  ${
+                `flex w-full items-center gap-2 rounded-xl px-4 py-3  ${
                   isActive
                     ? "bg-[#0C0B1A] text-white"
                     : "bg-transparent text-[#5F666F]"
@@ -91,7 +102,16 @@ const SidebarAdminClone = () => {
                 }`
               }
             >
-              <FontAwesomeIcon icon={faBell} />
+              <div className="relative">
+                <FontAwesomeIcon icon={faBell} />
+                {spaces.length > 0 && (
+                  <div className="absolute left-0 top-0 flex h-3 w-3 translate-x-2 items-center justify-center rounded-full bg-red-500">
+                    <span className="text-[8px] text-white">
+                      {spaces.length}
+                    </span>
+                  </div>
+                )}
+              </div>
               Pending Spaces
             </NavLink>
           </li>
