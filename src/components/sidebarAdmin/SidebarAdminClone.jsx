@@ -15,11 +15,22 @@ const SidebarAdminClone = () => {
   const [spaces, setSpaces] = useState([]);
   useEffect(() => {
     const fetchingSpaces = async () => {
-      const param = {
+      let param = {
         status: 3,
       };
       const data = await spaceService.getSpace(param);
+
       setSpaces(() => data?.data?.listSpaces || []);
+      if (data && data?.totalPages > 1 && data?.totalPages !== 1) {
+        param = {
+          page: data.totalPages,
+        };
+        const dataContinue = await spaceService.getSpace(param);
+        setSpaces((space) => [
+          ...space,
+          ...(dataContinue?.data?.listSpaces || []),
+        ]);
+      }
     };
     fetchingSpaces();
   }, []);
