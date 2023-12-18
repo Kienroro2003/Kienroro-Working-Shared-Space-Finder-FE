@@ -1,6 +1,7 @@
 import {
   faBars,
   faBell,
+  faClock,
   faSquareCheck,
   faUser,
   faUserTie,
@@ -35,10 +36,10 @@ const SidebarAdminClone = () => {
     fetchingSpaces();
   }, []);
   return (
-    <nav className="relative z-10 flex flex-wrap items-center justify-between bg-white px-6 py-4 shadow-xl md:fixed md:bottom-0 md:left-0 md:top-0 md:block md:w-64 md:flex-row md:flex-nowrap md:overflow-hidden md:overflow-y-auto">
-      <div className="mx-auto flex w-full flex-col items-center gap-8 px-0 md:min-h-full md:flex-col md:flex-nowrap md:items-stretch">
+    <nav className="relative z-10 flex flex-wrap items-center justify-between px-6 py-4 bg-white shadow-xl md:fixed md:bottom-0 md:left-0 md:top-0 md:block md:w-64 md:flex-row md:flex-nowrap md:overflow-hidden md:overflow-y-auto">
+      <div className="flex flex-col items-center w-full gap-8 px-0 mx-auto md:min-h-full md:flex-col md:flex-nowrap md:items-stretch">
         <button
-          className="cursor-pointer rounded border border-solid border-transparent bg-transparent px-3 py-1 text-xl leading-none text-black opacity-50 md:hidden"
+          className="px-3 py-1 text-xl leading-none text-black bg-transparent border border-transparent border-solid rounded opacity-50 cursor-pointer md:hidden"
           type="button"
           onClick={() => setCollapseShow("bg-white m-2 py-3 px-6")}
         >
@@ -46,7 +47,7 @@ const SidebarAdminClone = () => {
         </button>
         {/* Brand */}
         <Link
-          className="text-blueGray-600 mr-0 inline-block whitespace-nowrap p-4 px-0 text-left text-sm font-bold uppercase md:block md:pb-2"
+          className="inline-block p-4 px-0 mr-0 text-sm font-bold text-left uppercase text-blueGray-600 whitespace-nowrap md:block md:pb-2"
           to="/"
         >
           <img
@@ -55,7 +56,7 @@ const SidebarAdminClone = () => {
             className="h-[38px] w-[107px] object-cover"
           />
         </Link>
-        <ul className="flex w-full flex-col">
+        <ul className="flex flex-col w-full">
           <li>
             <NavLink
               to="/admin/dashboard"
@@ -104,6 +105,21 @@ const SidebarAdminClone = () => {
           </li>
           <li>
             <NavLink
+              to="/admin/notification"
+              className={({ isActive }) =>
+                `flex w-full items-center gap-2 rounded-xl  px-4 py-3  ${
+                  isActive
+                    ? "bg-[#0C0B1A] text-white"
+                    : "bg-transparent text-[#5F666F]"
+                }`
+              }
+            >
+              <FontAwesomeIcon icon={faBell} />
+              Notification
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
               to="/admin/posts-space/3"
               className={({ isActive }) =>
                 `flex w-full items-center gap-2 rounded-xl  px-4 py-3  ${
@@ -114,9 +130,9 @@ const SidebarAdminClone = () => {
               }
             >
               <div className="relative">
-                <FontAwesomeIcon icon={faBell} />
+                <FontAwesomeIcon icon={faClock} />
                 {spaces.length > 0 && (
-                  <div className="absolute left-0 top-0 flex h-3 w-3 translate-x-2 items-center justify-center rounded-full bg-red-500">
+                  <div className="absolute top-0 left-0 flex items-center justify-center w-3 h-3 translate-x-2 bg-red-500 rounded-full">
                     <span className="text-[8px] text-white">
                       {spaces.length}
                     </span>
