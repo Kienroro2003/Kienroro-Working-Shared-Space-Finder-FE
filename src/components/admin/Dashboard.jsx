@@ -7,9 +7,11 @@ import AuthContext from "../../context/authProvider";
 const Dashboard = () => {
   const fetchData = useRef();
   const { auth } = useContext(AuthContext);
+  console.log("🚀 ~ Dashboard ~ auth:", auth);
   const [data, setData] = useState({});
   fetchData.current = async () => {
     const data = await dashboard.getDashboard(auth.accessToken);
+    console.log("🚀 ~ fetchData.current= ~ data:", data);
     console.log(
       "🚀 ~ fetchData.current= ~ auth.accessToken:",
       auth.accessToken,
@@ -19,8 +21,8 @@ const Dashboard = () => {
   };
   useEffect(() => {
     fetchData.current();
-  }, [fetchData]);
-  console.log(data);
+  }, [auth]);
+
   return (
     <div className="bg-lightBlue-600">
       <div>

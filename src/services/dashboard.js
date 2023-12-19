@@ -1,6 +1,6 @@
 import * as request from "../ultils/request";
 
-const DASHBOARD_ENDPOINT = "/api/dashboard/dashboard";
+const DASHBOARD_ENDPOINT = "/api/dashboard/overview";
 
 export const getDashboard = async (accessToken) => {
   try {
